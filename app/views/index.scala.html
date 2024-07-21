@@ -1,0 +1,23 @@
+@(message: String, data: List[List[String]], header: List[String])
+
+@makeTable(data:List[List[String]], header:List[String]) = {
+    <table>
+        <tr>
+            @for(h <- header) {
+                <th>@h</th>
+            }
+        </tr>
+        @for(row <- data) {
+            <tr>
+                @for(cell <- row) {
+                    <td>@cell</td>
+                }
+            </tr>
+        }
+    </table>
+}
+
+@main("index page","hello", "cr 2018") {
+    <p>@message</p>
+    @makeTable(data, header)
+}
