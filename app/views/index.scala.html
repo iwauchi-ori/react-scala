@@ -1,23 +1,14 @@
-@(message: String, data: List[List[String]], header: List[String])
-
-@makeTable(data:List[List[String]], header:List[String]) = {
-    <table>
-        <tr>
-            @for(h <- header) {
-                <th>@h</th>
-            }
-        </tr>
-        @for(row <- data) {
-            <tr>
-                @for(cell <- row) {
-                    <td>@cell</td>
-                }
-            </tr>
-        }
-    </table>
-}
+@(message:String, myform: Form[MyForm.Data])(implicit request: MessagesRequestHeader)
 
 @main("index page","hello", "cr 2018") {
     <p>@message</p>
-    @makeTable(data, header)
+    @helper.form(action=routes.HomeController.form) {
+        @helper.CSRF.formField
+        @helper.inputText(myform("name"))
+        @helper.inputPassword(myform("pass"))
+        @helper.inputRadioGroup(myform("radio"),
+            options = Seq("ウィンドウズ" -> "windows",
+                "マック" -> "macOS", "リナックス" -> "Linux"))
+        <button>send form</button>
+    }
 }
